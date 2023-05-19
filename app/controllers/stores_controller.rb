@@ -101,7 +101,7 @@ class StoresController < ApplicationController
                     code: 401,
                     message: "Please log in as admin."
                 },
-                errors: ["Unauthorized Action"]
+                errors: {"action":"Unauthorized Action"}
             }, status: :unauthorized
         end
     end
