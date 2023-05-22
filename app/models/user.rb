@@ -8,4 +8,6 @@ class User < ApplicationRecord
          :jwt_authenticatable, jwt_revocation_strategy: self
   
   enum role: [:user, :admin]
+
+  has_many :line_items, dependent: :destroy
 end

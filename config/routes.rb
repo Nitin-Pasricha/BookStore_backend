@@ -6,6 +6,10 @@ Rails.application.routes.draw do
   delete 'stores/destroy/:id', to: 'stores#destroy'
 
 
+  post 'add_to_cart/:store_id', to: 'line_items#add_to_cart'
+  delete 'line_items/destroy/:store_id', to: 'line_items#destroy'
+
+
   devise_for :users, path: '', path_names: {
     sign_in: 'login',
     sign_out: 'logout',
