@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get 'cart', to: 'cart#index'
   delete 'empty_cart', to: 'cart#empty_cart'
 
+  get 'order_history', to: 'order_history#index'
+
 
   devise_for :users, path: '', path_names: {
     sign_in: 'login',
