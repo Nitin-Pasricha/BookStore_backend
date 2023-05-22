@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   get 'cart', to: 'cart#index'
   delete 'empty_cart', to: 'cart#empty_cart'
+  post 'checkout', to: 'cart#checkout'
 
   get 'order_history', to: 'order_history#index'
 

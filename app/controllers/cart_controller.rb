@@ -1,6 +1,6 @@
 class CartController < ApplicationController
     before_action :authenticate_user
-    before_action :set_cart, only: [:index, :empty_cart]
+    before_action :set_cart, only: [:index, :empty_cart, :checkout]
 
     def index
         
@@ -36,6 +36,20 @@ class CartController < ApplicationController
             code: 200,
             message: "Cart items deleted successfully."
         }
+        }, status: :ok
+    end
+
+    def checkout
+        for @line_item in @line_items do
+            @line_item.status = 1
+            @line_item.save
+        end
+
+        render json: {
+            status: {
+                code: 200,
+                message: 'Order placed successfully.'
+            }
         }, status: :ok
     end
 
