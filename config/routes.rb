@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   post 'add_to_cart/:store_id', to: 'line_items#add_to_cart'
   delete 'line_items/destroy/:store_id', to: 'line_items#destroy'
 
+  get 'cart', to: 'cart#index'
+  delete 'empty_cart', to: 'cart#empty_cart'
+
 
   devise_for :users, path: '', path_names: {
     sign_in: 'login',
