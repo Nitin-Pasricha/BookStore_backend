@@ -3,7 +3,11 @@ class StoresController < ApplicationController
     before_action :set_store, only: [:show, :update, :destroy]
 
     def index
-        @stores = Store.all
+        if current_user && current_user.admin?
+            @stores = Store.all
+        else
+            @stores = Store.where(status:'store_available')
+        end
         render json: {
         status: {
             code: 200,
@@ -65,11 +69,12 @@ class StoresController < ApplicationController
     end
 
     def destroy
-        @store.destroy
+        @store.status = 1
+        @store.save
         render json: {
         status: {
             code: 200,
-            message: "Store with id #{params[:id]} destroyed successfully."
+            message: "Store with id #{params[:id]} removed successfully."
         }
         }, status: :ok
     end
@@ -78,7 +83,7 @@ class StoresController < ApplicationController
     private
 
     def store_params
-        params.require(:store).permit(:title, :author, :description, :price)
+        params.require(:store).permit(:title, :author, :description, :price, :status)
     end
 
     def set_store

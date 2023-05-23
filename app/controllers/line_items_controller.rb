@@ -67,7 +67,17 @@ class LineItemsController < ApplicationController
     private
     
     def set_line_item
-        @line_item = LineItem.where(user_id: current_user).where(status: 'in_cart').find_by_store_id(params[:store_id])
+        @store = Store.find_by_id(params[:store_id])
+        if @store && @store.store_available?
+            @line_item = LineItem.where(user_id: current_user).where(status: 'in_cart').find_by_store_id(params[:store_id])
+        else
+            render json: {
+                status: {
+                    code: 404,
+                    message: "Store with id: #{params[:store_id]} not found."
+                }
+            }
+        end
     end
 
     def authenticate_user
@@ -77,7 +87,7 @@ class LineItemsController < ApplicationController
                     code: 401,
                     message: 'Please log in to continue.'
                 },
-                errors: {'action': 'Unauthorized error.'}
+                errors: {'action': 'Unauthorized action.'}
             }, status: :unauthorized
         end
     end
