@@ -31,3 +31,7 @@
 /config/master.key
 
 /config/credentials/credentials.key
+
+/config/credentials
+
+/config/credentials.yml.enc
