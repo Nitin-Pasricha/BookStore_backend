@@ -3,7 +3,6 @@ class CartController < ApplicationController
     before_action :set_cart, only: [:index, :empty_cart, :checkout]
 
     def index
-        
         items = Array.new
         total_amount = 0
         for @line_item in @line_items do
@@ -40,17 +39,29 @@ class CartController < ApplicationController
     end
 
     def checkout
-        for @line_item in @line_items do
-            @line_item.status = 1
-            @line_item.save
-        end
+        if @line_items.size()>0
+            for @line_item in @line_items do
+                @line_item.status = 1
+                @line_item.save
+            end
 
-        render json: {
-            status: {
-                code: 200,
-                message: 'Order placed successfully.'
-            }
-        }, status: :ok
+            
+            EmailSchedulerJob.perform_async(current_user.id.to_i)
+
+            render json: {
+                status: {
+                    code: 200,
+                    message: 'Order placed successfully.'
+                }
+            }, status: :ok
+        else
+            render json: {
+                status: {
+                    code: 422,
+                    message: 'Cart is empty! Please add items in cart.'
+                }
+            }, status: :unprocessable_entity
+        end
     end
 
     private
