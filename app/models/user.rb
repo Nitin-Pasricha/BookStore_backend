@@ -9,5 +9,5 @@ class User < ApplicationRecord
   
   enum role: [:user, :admin]
 
-  has_many :line_items, dependent: :destroy
+  has_many :orders, dependent: :destroy
 end

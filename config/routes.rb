@@ -1,10 +1,10 @@
 
 Rails.application.routes.draw do
   
-  require 'sidekiq/web'
-  BookStore::Application.routes.draw do
-    mount Sidekiq::Web => '/sidekiq'
-  end
+  # require 'sidekiq/web'
+  # BookStore::Application.routes.draw do
+  #   mount Sidekiq::Web => '/sidekiq'
+  # end
 
   # routes for book store
 
@@ -16,8 +16,8 @@ Rails.application.routes.draw do
 
   # routes for line items
 
-  post 'add_to_cart/:store_id', to: 'line_items#add_to_cart'
-  delete 'line_items/destroy/:store_id', to: 'line_items#destroy'
+  post 'add_to_cart/:store_id', to: 'order_items#add_to_cart'
+  delete 'order_items/destroy/:id', to: 'order_items#destroy'
 
   # routes for cart
 

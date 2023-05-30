@@ -97,18 +97,5 @@ class StoresController < ApplicationController
         }, status: :unprocessable_entity
         end
     end
-
-    def authenticate_admin
-        
-        if current_user.blank? || current_user.role!="admin"
-            render json: {
-                status: {
-                    code: 401,
-                    message: "Please log in as admin."
-                },
-                errors: {"action":"Unauthorized Action"}
-            }, status: :unauthorized
-        end
-    end
 end
   

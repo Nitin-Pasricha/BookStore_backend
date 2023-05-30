@@ -4,15 +4,12 @@ class OrderHistoryController < ApplicationController
 
     def index
         items = Array.new
-        for @line_item in @line_items do
+        for @order in @orders do
             items.push({
-                "id"=> @line_item.id,
-                "store_id"=> @line_item.store_id,
-                "title" => @line_item.store.title,
-                "author" => @line_item.store.author,
-                "price" => @line_item.store.price,
-                "qty"=> @line_item.qty,
-                "curr_stock_status" => @line_item.store.status
+                "id"=> @order.id,
+                "amount"=> "Rs. #{@order.amount}",
+                "status"=> @order.status,
+                "order_date"=> @order.order_date
             })
         end
         render json: {
@@ -25,19 +22,16 @@ class OrderHistoryController < ApplicationController
     end
 
     private
-    def authenticate_user
-        if !current_user
-            render json: {
-                status: {
-                    code: 401,
-                    message: 'Please log in to continue.'
-                },
-                errors: {'action': 'Unauthorized error.'}
-            }, status: :unauthorized
-        end
-    end
 
     def set_order_history
-        @line_items = LineItem.where(user_id: current_user).where(status: 'ordered')
+        @orders = Order.where(user_id: current_user).where(status:'ordered')
+        if @orders.blank?
+            render json: {
+                status: {
+                    code: 422,
+                    message: "You don't have any order history."
+                }
+            }, status: :unprocessable_entity
+        end
     end
 end
