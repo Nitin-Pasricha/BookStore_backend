@@ -2,6 +2,7 @@ class CartController < ApplicationController
     before_action :authenticate_user
     before_action :set_cart, only: [:index, :empty_cart, :checkout]
 
+    # GET cart
     def index
         items = Array.new
         for @order_item in @order.order_items do
@@ -28,6 +29,7 @@ class CartController < ApplicationController
         }, status: :ok
     end
 
+    # DELETE empty_cart
     def empty_cart
         @order.destroy
         render json: {
@@ -38,6 +40,7 @@ class CartController < ApplicationController
         }, status: :ok
     end
 
+    # POST checkout
     def checkout
         @order.status = "ordered"
         @order.order_date = DateTime.now()

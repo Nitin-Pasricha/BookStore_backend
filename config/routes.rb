@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   post 'stores/update/:id', to: 'stores#update'
   delete 'stores/destroy/:id', to: 'stores#destroy'
 
-  # routes for line items
+  # routes for order items
 
   post 'add_to_cart/:store_id', to: 'order_items#add_to_cart'
   delete 'order_items/destroy/:id', to: 'order_items#destroy'

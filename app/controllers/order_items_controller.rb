@@ -3,6 +3,7 @@ class OrderItemsController < ApplicationController
     before_action :set_order_item, only: [:add_to_cart]
     before_action :find_order_item, only: [:destroy]
 
+    # POST add_to_cart/:store_id
     def add_to_cart
         @order.amount = @order.amount + @store.price
         if @order_item.blank?
@@ -55,6 +56,7 @@ class OrderItemsController < ApplicationController
         end
     end
 
+    # DELETE order_items/destroy/:id
     def destroy
         @order.amount = @order.amount - (@order_item.qty * @order_item.store.price)
         @order.save

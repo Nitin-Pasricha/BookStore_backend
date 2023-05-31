@@ -2,6 +2,7 @@ class StoresController < ApplicationController
     before_action :authenticate_admin, only: [:create, :update, :destroy]
     before_action :set_store, only: [:show, :update, :destroy]
 
+    # GET stores
     def index
         if current_user && current_user.admin?
             @stores = Store.all
@@ -17,6 +18,7 @@ class StoresController < ApplicationController
         }, status: :ok
     end
 
+    # GET stores/show/:id
     def show
         render json: {
         status: {
@@ -27,6 +29,7 @@ class StoresController < ApplicationController
         }, status: :ok
     end
 
+    # POST stores
     def create
         @store = Store.new(store_params)
         if @store.save
@@ -48,6 +51,7 @@ class StoresController < ApplicationController
         end
     end
 
+    # POST stores/update/:id
     def update
         if @store.update(store_params)
             render json: {
@@ -68,6 +72,7 @@ class StoresController < ApplicationController
         end
     end
 
+    # DELETE stores/destroy/:id
     def destroy
         @store.status = 1
         @store.save

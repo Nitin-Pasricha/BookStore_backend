@@ -2,6 +2,8 @@ class OrderHistoryController < ApplicationController
     before_action :authenticate_user
     before_action :set_order_history, only: [:index]
 
+
+    # GET order_history
     def index
         items = Array.new
         for @order in @orders do
@@ -21,6 +23,7 @@ class OrderHistoryController < ApplicationController
         }
     end
 
+    # GET order_details/:order_id
     def order_details
         @order = Order.where(user_id: current_user).find_by_id(params[:order_id])
         if @order.blank?
