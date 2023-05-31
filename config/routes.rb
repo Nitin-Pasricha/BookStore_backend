@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   # route for checking order history
 
   get 'order_history', to: 'order_history#index'
+  get 'order_details/:order_id', to: 'order_history#order_details'
 
 
   # routes for authentication of user
